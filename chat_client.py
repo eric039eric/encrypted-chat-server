@@ -2,7 +2,7 @@ import socket
 import threading
 from crypto_helper import encrypt_message, decrypt_message
 
-host = "192.168.157.128"
+host = "192.168.XXX.XXX" #記得切換成你的server端Ipv4位址
 port = 12345
 
 s = socket.socket()
@@ -13,16 +13,16 @@ def receive():
         try:
             data = s.recv(4096)
             if not data:
-                print ("å°æ–¹å·²é›¢ç·š")
+                print ("對方已離線")
                 break
             decrypted = decrypt_message(data.decode())
-            print (f"\nå°æ–¹èªªï¼š{decrypted}")
+            print (f"\n對方說:{decrypted}")
         except Exception as e:
-            print ("æŽ¥æ”¶éŒ¯èª¤ï¼š", e)
+            print ("接收錯誤", e)
             break
 def send():
     while True:
-        msg = input("ä½ èªªï¼š")
+        msg = input("你說")
         encrypted = encrypt_message(msg)
 
         if isinstance(encrypted, str):
@@ -31,7 +31,7 @@ def send():
             s.send(encrypted)
 
         if msg.lower() == 'exit':
-            print ("ä½ å·²é›¢é–‹èŠå¤©å®¤ã€‚")
+            print ("你已離開聊天室。")
             s.close()
             break
 
